@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="facecat">
+  <head>
+    </head>
+  <body>
+    <div type="splitlayout" name="divMain" layoutstyle="bottomtotop" dock="fill" size="400,400" splitterposition="370,1" bordercolor="none">
+      <!--指数栏-->
+      <input type="custom" cid="indexdiv" name="divIndex"/>
+      <div type="splitlayout" name="chartdiv" dock="fill" backcolor="none" layoutstyle="righttoleft" size="400,378" splitterposition="150,0" bordercolor="none">
+        <div  bordercolor="none" backcolor="none" padding="5,5,5,5">
+          <!--实时报价-->
+          <input type="custom" cid="latestdiv" name="divLatest" dock="fill"/>
+        </div>
+        <!--K线图-->
+        <div bordercolor="none" backcolor="none" padding="5,5,5,5">
+          <input type="custom" cid="chartexex" name="divKLine" dock="fill"/>
+        </div>
+      </div>
+    </div>
+    <!--浮动数据-->
+    <input type="custom" cid="floatdiv" name="divFloat" allowdrag="true" location="85,20" size="85,300" visible="false"/>
+    <!--右键菜单-->
+    <menu name="rightMenu" popup="true" size="200,225" visible="false">
+      <option text="主图类型">
+        <option name="CANDLE_STANDARD" checked="true" text="标准"/>
+        <option name="CANDLE_AMERICAN" text="美国线"/>
+        <option name="CANDLE_TOWER" text="宝塔线"/>
+        <option name="CANDLE_CLOSE" text="收盘线"/>
+      </option>
+      <option text="坐标轴类型">
+        <option name="SCALE_STANDARD" text="普通坐标系"/>
+        <option name="SCALE_LOG" text="对数坐标系"/>
+        <option name="SCALE_DIFF" text="等差坐标"/>
+        <option name="SCALE_EQUALRATIO" text="等比坐标"/>
+        <option name="SCALE_DIVIDE" text="等分坐标"/>
+        <option name="SCALE_PERCENT" text="百分比坐标"/>
+        <option name="SCALE_GOLDENRATIO" text="黄金分割坐标"/>
+        <option name="SCALE_REVERSEH" text="翻转横坐标"/>
+        <option name="SCALE_REVERSEV" text="翻转纵坐标"/>
+      </option>
+      <option text="分析周期">
+        <option name="CYCLE_1MINUTE" text="1分钟线"/>
+        <option name="CYCLE_5MINUTE" text="5分钟线"/>
+        <option name="CYCLE_15MINUTE" text="15分钟线"/>
+        <option name="CYCLE_30MINUTE" text="30分钟线"/>
+        <option name="CYCLE_60MINUTE" text="60分钟线"/>
+        <option name="CYCLE_DAY" checked="true" text="日线"/>
+        <option name="CYCLE_WEEK" text="周线"/>
+        <option name="CYCLE_MONTH" text="月线"/>
+      </option>
+      <option text="复权方式">
+        <option name="SUBSCRIPTION_NONE" text="不复权"/>
+        <option name="SUBSCRIPTION_FRONT" text="前复权"/>
+        <option name="SUBSCRIPTION_BACK" text="后复权"/>
+      </option>
+    </menu>
+  </body>
+</html>

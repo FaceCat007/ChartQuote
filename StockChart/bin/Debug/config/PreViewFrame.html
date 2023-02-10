@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="facecat">
+  <head>
+    <script>
+      //按钮点击
+      function onclick(){
+        var sender = '', pName = '';
+        getsender(sender);
+        getAttribute(pName, sender, 'name');
+        if(str.equals(pName, 'btnCancel')){
+          closewindow();
+        }
+      }
+    </script>
+  </head>
+  <body>
+   <div dock="fill" padding="2,2,2,2" backcolor="rgba(46,47,49,255)" bordercolor="rgb(0,0,0)" name="divWindow">
+      <div type="splitlayout" layoutstyle="toptobottom" bordercolor="none" backcolor="rgb(46,47,49)" splitterposition="30,0" size="400,400" dock="fill" >
+        <input type="custom" cid="titlediv" name="lblStatus" bordercolor="none"/>
+        <div name="divContent" bordercolor="none" />
+        </div>
+        </div>
+  </body>
+</html>

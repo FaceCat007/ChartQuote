@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/Security.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/SecurityLatestData.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/DivideRightType.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/IsDivideRightType.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/DataCenter.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/MinuteDatasCache.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/LatestRequestInfo.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/server/HttpService.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/SecurityData2.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/server/LatestService.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/server/StockService.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/main/Quote.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/base/FCStrExC.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/server/HistoryService.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/PriceData.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/ClientTickDataCache.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/OneDivideRightBase.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/server/PriceDataService.java</file>
+            <file>file:/C:/Miao/test/iChartNew/StockQuoteJava/src/service/PriceDataRequestInfo.java</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="facecat">
+  <head>
+    <script>
+      //按钮点击
+      function onclick(){
+        var sender = '', pName = '';
+        getsender(sender);
+        getAttribute(pName, sender, 'name');
+        if(str.equals(pName, 'btnCancel')){
+          closewindow();
+        }
+      }
+    </script>
+  </head>
+  <body>
+   <div dock="fill" name="divContent" allowdragscroll="true" showhscrollbar="true" showvscrollbar="true" allowpreviewsevent="true">
+        </div>
+  </body>
+</html>
