@@ -3,7 +3,7 @@
   <head>
     </head>
   <body>
-    <div type="splitlayout" name="divMain" layoutstyle="bottomtotop" dock="fill" size="400,400" splitterposition="370,1" bordercolor="none">
+    <div type="splitlayout" name="divMain" layoutstyle="bottomtotop" dock="fill" size="400,400" splitterposition="0,400,400,400" bordercolor="none">
       <!--指数栏-->
       <input type="custom" cid="indexdiv" name="divIndex"/>
       <div type="splitlayout" name="chartdiv" dock="fill" backcolor="none" layoutstyle="righttoleft" size="400,378" splitterposition="150,0" bordercolor="none">

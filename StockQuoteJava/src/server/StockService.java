@@ -406,7 +406,7 @@ public class StockService {
                 if(subStrs.length >= 7){
                     SecurityData2 securityData = new SecurityData2();
                     int hour = FCTran.strToInt(subStrs[1].substring(0, 2));
-                    int minute = FCTran.strToInt(subStrs[1].substring(2, 2));
+                    int minute = FCTran.strToInt(subStrs[1].substring(2, 4));
                     int year = 0, month = 0, day = 0;
                     String[] dateStrs = subStrs[0].split("-");
                     year = FCTran.strToInt(dateStrs[0]);
