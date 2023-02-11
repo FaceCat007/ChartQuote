@@ -3,18 +3,14 @@
   <head>
     </head>
   <body>
-    <div type="splitlayout" name="divMain" layoutstyle="bottomtotop" dock="fill" size="400,400" splitterposition="0,400,400,400" bordercolor="none">
-      <!--指数栏-->
-      <input type="custom" cid="indexdiv" name="divIndex"/>
-      <div type="splitlayout" name="chartdiv" dock="fill" backcolor="none" layoutstyle="righttoleft" size="400,378" splitterposition="150,0" bordercolor="none">
-        <div  bordercolor="none" backcolor="none" padding="5,5,5,5">
-          <!--实时报价-->
-          <input type="custom" cid="latestdiv" name="divLatest" dock="fill"/>
-        </div>
-        <!--K线图-->
-        <div bordercolor="none" backcolor="none" padding="5,5,5,5">
-          <input type="custom" cid="chartexex" name="divKLine" dock="fill"/>
-        </div>
+    <div type="splitlayout" name="divMain" layoutstyle="righttoleft" dock="fill" size="400,400" splitterposition="120,1" bordercolor="none">
+      <div  bordercolor="none" backcolor="none" padding="5,5,5,5">
+        <!--实时报价-->
+        <input type="custom" cid="latestdiv" name="divLatest" dock="fill"/>
+      </div>
+      <!--K线图-->
+      <div bordercolor="none" backcolor="none" padding="5,5,5,5">
+        <input type="custom" cid="chartexex" name="divKLine" dock="fill"/>
       </div>
     </div>
     <!--浮动数据-->
@@ -25,7 +21,7 @@
         <option name="CANDLE_STANDARD" checked="true" text="标准"/>
         <option name="CANDLE_AMERICAN" text="美国线"/>
         <option name="CANDLE_TOWER" text="宝塔线"/>
-        <option name="CANDLE_CLOSE" text="收盘线"/>
+        <option name="CANDLE_CLOSE" text="收盘线"/>B
       </option>
       <option text="坐标轴类型">
         <option name="SCALE_STANDARD" text="普通坐标系"/>

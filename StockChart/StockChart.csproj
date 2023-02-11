@@ -80,8 +80,6 @@
     <Compile Include="Chart\Service\SecurityDataHelper.cs" />
     <Compile Include="Chart\UI\IndicatorData.cs" />
     <Compile Include="Chart\Service\DataCenter.cs" />
-    <Compile Include="Chart\UI\FloatDiv.cs" />
-    <Compile Include="Chart\UI\IndexDiv.cs" />
     <Compile Include="Chart\UI\MainFrame.cs">
     </Compile>
     <Compile Include="Chart\UI\LatestDiv.cs" />

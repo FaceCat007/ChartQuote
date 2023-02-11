@@ -52,29 +52,14 @@ namespace chart {
         private List<ChartDiv> m_divs = new List<ChartDiv>();
 
         /// <summary>
-        /// 浮动层
-        /// </summary>
-        private FloatDiv m_floatDiv;
-
-        /// <summary>
         /// 横轴的步长
         /// </summary>
         private ArrayList<double> m_hScaleSteps = new ArrayList<double>();
 
         /// <summary>
-        /// 指标面板
-        /// </summary>
-        private IndexDiv m_indexDiv;
-
-        /// <summary>
         /// 实时数据面板
         /// </summary>
         private LatestDiv m_latestDiv;
-
-        /// <summary>
-        /// 当前布局ID
-        /// </summary>
-        private String m_layoutID = "";
 
         /// <summary>
         /// 分时线的平均线
@@ -277,28 +262,6 @@ namespace chart {
         }
 
         /// <summary>
-        /// 添加空白层
-        /// </summary>
-        public void addBlankDiv() {
-            //隐藏的x轴
-            int divSize = m_divs.Count;
-            for (int i = 0; i < divSize; i++) {
-                m_divs[i].getHScale().setVisible(false);
-                m_divs[i].getHScale().setHeight(0);
-            }
-            ChartDiv div = m_chart.addDiv();
-            div.setBackColor(FCColor.Back);
-            m_divs.Add(div);
-            div.getHScale().setHeight(22);
-            div.getVGrid().setDistance(40);
-            div.getLeftVScale().setTextColor(MyColor.USERCOLOR3);
-            div.getLeftVScale().setFont(new FCFont("Default", 14, false, false, false));
-            div.getRightVScale().setTextColor(MyColor.USERCOLOR3);
-            div.getRightVScale().setFont(new FCFont("Default", 14, false, false, false));
-            refreshData();
-        }
-
-        /// <summary>
         /// 设置主图指标
         /// </summary>
         /// <param name="name">名称</param>
@@ -431,6 +394,10 @@ namespace chart {
             }
         }
 
+        /// <summary>
+        /// 处理最新数据
+        /// </summary>
+        /// <param name="latestData"></param>
         private void newData(SecurityLatestData latestData)
         {
             lock (m_securityDatasCache)
@@ -586,85 +553,8 @@ namespace chart {
                             return;
                         }
                     }
-                }else if (eventName == "ontouchup") {
-                    m_floatDiv.setVisible(m_chart.showCrossLine());
-                    m_native.invalidate();
                 }
             }
-        }
-
-        /// <summary>
-        /// 删除指标
-        /// </summary>
-        /// <param name="indicator">指标</param>
-        public void deleteIndicator(FCScript indicator) {
-            indicator.clear();
-            m_indicators.Remove(indicator);
-            indicator.delete();
-            m_chart.update();
-            m_native.invalidate();
-        }
-
-        /// <summary>
-        /// 删除所有指标
-        /// </summary>
-        /// <param name="update">是否更新</param>
-        public void deleteIndicators(bool update) {
-            int m_indicatorsSize = m_indicators.Count;
-            for (int i = 0; i < m_indicatorsSize; i++) {
-                FCScript indicator = m_indicators[i];
-                indicator.clear();
-                indicator.delete();
-            }
-            m_indicators.Clear();
-            if (update) {
-                m_chart.update();
-                m_native.invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 删除选中的指标
-        /// </summary>
-        public void deleteSelectedIndicator() {
-            FCScript indicator = getSelectedIndicator();
-            if (indicator != null) {
-                indicator.clear();
-                m_indicators.Remove(indicator);
-                indicator.delete();
-                m_chart.update();
-                m_native.invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 删除选中的画线
-        /// </summary>
-        public void deleteSelectedPlot() {
-            FCPlot selectedPlot = m_chart.getSelectedPlot();
-            if (selectedPlot != null) {
-                selectedPlot.getDiv().removePlot(selectedPlot);
-                selectedPlot.delete();
-                m_chart.update();
-                m_native.invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 获取选中的指标
-        /// </summary>
-        /// <returns>指标</returns>
-        private FCScript getSelectedIndicator() {
-            BaseShape shape = m_chart.getSelectedShape();
-            if (shape != null) {
-                foreach (FCScript indicator in m_indicators) {
-                    List<BaseShape> shapes = indicator.getShapes();
-                    if (shapes.Contains(shape)) {
-                        return indicator;
-                    }
-                }
-            }
-            return null;
         }
 
         /// <summary>
@@ -852,14 +742,9 @@ namespace chart {
                 //设置坐标轴的网格线间隔
                 //添加到集合
                 m_divs.AddRange(new ChartDiv[] { m_candleDiv, m_volumeDiv, indDiv });
-                //添加用户自定义层
-                m_floatDiv = findView("divFloat") as FloatDiv;
-                m_floatDiv.setMainFrame(this);
                 //当前数据层
                 m_latestDiv = findView("divLatest") as LatestDiv;
                 m_latestDiv.setMainFrame(this);
-                m_indexDiv = findView("divIndex") as IndexDiv;
-                m_indexDiv.setMainFrame(this);
                 dataSource.addColumn(KeyFields.CLOSE_INDEX);
                 dataSource.addColumn(KeyFields.HIGH_INDEX);
                 dataSource.addColumn(KeyFields.LOW_INDEX);
@@ -879,22 +764,6 @@ namespace chart {
         }
 
         /// <summary>
-        /// 是否有窗体显示
-        /// </summary>
-        /// <returns>是否显示</returns>
-        public bool isWindowShowing() {
-            List<FCView> controls = m_native.getViews();
-            int controlsSize = controls.Count;
-            for (int i = 0; i < controlsSize; i++) {
-                FCWindowFrame frame = controls[i] as FCWindowFrame;
-                if (frame != null) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// 加载数据
         /// </summary>
         public override void loadData() {
@@ -908,7 +777,6 @@ namespace chart {
                 //指标的右键菜单
                 //m_quoteService.addListener(m_vfRequestID, new ListenerMessageCallBack(quoteDataCallBack));
             }
-            m_indexDiv.start();
 
             DataCenter.m_historyServiceClient.addListener(m_requestID2, this, null);
             addMainIndicator("MA", "", "CONST N1=5;CONST N2=10;CONST N3=20;CONST N4=30;CONST N5=120;CONST N6=250;\r\nMA5:MA(CLOSE,N1); \rMA10:MA(CLOSE,N2); \rMA20:MA(CLOSE,N3); \rMA30:MA(CLOSE,N4);\rMA120:MA(CLOSE,N5); \rMA250:MA(CLOSE,N6);", "", m_candleDiv, true);
@@ -1002,18 +870,6 @@ namespace chart {
                             break;
                     }
                 }
-                //布局
-                else if (name.StartsWith("LAYOUT_")) {
-                    String type = name.Substring(7);
-                    switch (type) {
-                        case "ADDBLANKDIV":
-                            addBlankDiv();
-                            break;
-                        case "REMOVEBLANKDIVS":
-                            removeBlankDivs(true);
-                            break;
-                    }
-                }
                 //切换周期
                 else if (name.StartsWith("CYCLE_")) {
                     String type = name.Substring(6);
@@ -1094,53 +950,6 @@ namespace chart {
             FCMessage copyMessage = new FCMessage();
             copyMessage.copy(message);
             m_chart.beginInvoke(copyMessage);
-        }
-
-        /// <summary>
-        /// 移除新添加的空白层
-        /// </summary>
-        /// <param name="update">是否更新布局</param>
-        public void removeBlankDivs(bool update) {
-            List<ChartDiv> removeDivs = new List<ChartDiv>();
-            //获取要移除的层
-            foreach (ChartDiv div in m_chart.getDivs()) {
-                if (div != m_candleDiv && div != m_volumeDiv) {
-                    if (div.getShapes(SortType.None).Count == 0) {
-                        removeDivs.Add(div);
-                        m_divs.Remove(div);
-                    }
-                }
-            }
-            //移除层
-            int removeDivSize = removeDivs.Count;
-            for (int i = 0; i < removeDivSize; i++) {
-                m_chart.removeDiv(removeDivs[i]);
-            }
-            //重新设置X轴
-            List<ChartDiv> divsCopy = m_chart.getDivs();
-            int divSize = divsCopy.Count;
-            for (int i = 0; i < divSize; i++) {
-                if (i == divSize - 1) {
-                    divsCopy[i].getHScale().setVisible(true);
-                    divsCopy[i].getHScale().setHeight(22);
-                }
-                else {
-                    divsCopy[i].getHScale().setVisible(false);
-                    divsCopy[i].getHScale().setHeight(0);
-                }
-            }
-            if (update) {
-                m_chart.update();
-                m_native.invalidate();
-            }
-        }
-
-        /// <summary>
-        /// 右键菜单可见状态改变事件
-        /// </summary>
-        /// <param name="sender">调用者</param>
-        private void rightMenuVisibleChanged(object sender, object invoke) {
-           
         }
 
         /// <summary>
@@ -1312,9 +1121,6 @@ namespace chart {
             FCView focusedView = m_native.getFocusedView();
             if (focusedView != null) {
                 String name = focusedView.getName();
-                if (isWindowShowing() && name != "txtSearch") {
-                    return;
-                }
                 if (!(focusedView is FCTextBox) || (m_searchDiv != null && focusedView == m_searchDiv.getSearchTextBox())
                     || name == "txtSearch") {
                     Keys keyData = (Keys)key;

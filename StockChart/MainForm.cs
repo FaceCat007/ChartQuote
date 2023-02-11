@@ -27,8 +27,6 @@ namespace chart {
             m_chart = new MainFrame();
             m_chart.createNative();
 
-            UIXmlEx.m_outReWrites["floatdiv"] = new FloatDiv();
-            UIXmlEx.m_outReWrites["indexdiv"] = new IndexDiv();
             UIXmlEx.m_outReWrites["latestdiv"] = new LatestDiv();
             UIXmlEx.m_outReWrites["searchdiv"] = new SearchDiv();
             UIXmlEx.m_outReWrites["chartexex"] = new MyChartDiv();

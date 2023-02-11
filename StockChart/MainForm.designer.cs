@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System;
+using System.Diagnostics;
 
 namespace chart
 {
@@ -16,6 +17,7 @@ namespace chart
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            Process.GetCurrentProcess().Kill();
             if (m_native != null)
             {
                 m_native.delete();
