@@ -26,6 +26,18 @@ public class HttpService implements FCHttpEasyService{
         if (data.m_parameters.containsKey("func"))
         {
             String func = data.m_parameters.get("func");
+             //http://127.0.0.1:9958/quote?func=exportday
+            //获取代码
+            if (func.equals("exportday"))
+            {
+                DataCenter.m_historyService.fallSecurityDatas();
+            }
+            //http://127.0.0.1:9958/quote?func=exportday
+            //获取代码
+            else if (func.equals("exportminute"))
+            {
+                DataCenter.m_historyService.fallMinuteSecurityDatas();
+            }
             //http://127.0.0.1:9958/quote?func=getcodes
             //获取代码
             if (func.equals("getcodes"))

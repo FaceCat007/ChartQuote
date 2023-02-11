@@ -20,10 +20,21 @@ namespace FaceCat
             if (data.m_parameters.containsKey("func"))
             {
                 String func = data.m_parameters.get("func");
+                //http://127.0.0.1:9958/quote?func=exportday
+                //获取代码
+                if (func == "exportday")
+                {
+                    DataCenter.HistoryService.fallSecurityDatas();
+                }
+                //http://127.0.0.1:9958/quote?func=exportday
+                //获取代码
+                else if (func == "exportminute")
+                {
+                    DataCenter.HistoryService.fallMinuteSecurityDatas();
+                }
                 //http://127.0.0.1:9958/quote?func=getcodes
                 //获取代码
-                if (func == "getcodes")
-                {
+                else if (func == "getcodes"){
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine("代码,名称");
                     foreach (Security security in StockService.m_codedMap.Values)

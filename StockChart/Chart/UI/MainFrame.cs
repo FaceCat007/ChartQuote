@@ -526,32 +526,26 @@ namespace chart {
                 if (eventName == "ontouchdown") {
                     FCView control = sender as FCView;
                     FCPoint mp = control.pointToNative(touchInfo.m_firstPoint);
-                    String cmd = FaceCatAPI.getCurrentCmd();
-                    if (cmd.IndexOf("addplot:") == 0)
+                    if (touchInfo.m_secondTouch && touchInfo.m_clicks == 1)
                     {
-                        FaceCat.MyChartDiv.addPlot(m_chart, touchInfo);
-                    } 
-                    else {
-                        if (touchInfo.m_secondTouch && touchInfo.m_clicks == 1) {
-                            if (m_rightMenu != null)
+                        if (m_rightMenu != null)
+                        {
+                            m_currentDiv = m_chart.getTouchOverDiv();
+                            //µ¯³öÓÒ¼ü²Ëµ¥
+                            FCSize nativeSize = m_native.getSize();
+                            int rightMenuHeight = m_rightMenu.getHeight();
+                            if (mp.y + rightMenuHeight > nativeSize.cy)
                             {
-                                m_currentDiv = m_chart.getTouchOverDiv();
-                                //µ¯³öÓÒ¼ü²Ëµ¥
-                                FCSize nativeSize = m_native.getSize();
-                                int rightMenuHeight = m_rightMenu.getHeight();
-                                if (mp.y + rightMenuHeight > nativeSize.cy)
-                                {
-                                    mp.y = nativeSize.cy - rightMenuHeight;
-                                }
-                                m_rightMenu.setLocation(mp);
-                                m_rightMenu.setFocused(true);
-                                m_rightMenu.update();
-                                m_rightMenu.setVisible(true);
-                                m_rightMenu.bringToFront();
-                                m_native.invalidate();
+                                mp.y = nativeSize.cy - rightMenuHeight;
                             }
-                            return;
+                            m_rightMenu.setLocation(mp);
+                            m_rightMenu.setFocused(true);
+                            m_rightMenu.update();
+                            m_rightMenu.setVisible(true);
+                            m_rightMenu.bringToFront();
+                            m_native.invalidate();
                         }
+                        return;
                     }
                 }
             }

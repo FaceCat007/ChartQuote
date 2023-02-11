@@ -19,6 +19,7 @@ namespace FaceCat {
         /// </summary>
         static void Main(String[] args) {
             DataCenter.startService();
+            Console.ReadLine();
             while (true)
             {
                 Console.WriteLine("1.导出日K线");
@@ -26,7 +27,7 @@ namespace FaceCat {
                 String str = Console.ReadLine();
                 if (str == "1")
                 {
-                    DataCenter.HistoryService.fallSecurityDatas();
+                    
                 }
                 else if (str == "2")
                 {
