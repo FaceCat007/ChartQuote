@@ -36,15 +36,16 @@ namespace FaceCat
                 //获取复权因子
                 else if (func == "getdr")
                 {
-                     String filePath = Application.StartupPath + "\\DR.txt";
-                     if (FCFile.isFileExist(filePath))
-                     {
-                         String content = "";
-                         FCFile.read(filePath, ref content);
-                         data.m_resStr = content;
-                     }
+                    String filePath = Application.StartupPath + "\\DR.txt";
+                    if (FCFile.isFileExist(filePath))
+                    {
+                        String content = "";
+                        FCFile.read(filePath, ref content);
+                        data.m_resStr = content;
+                    }
                 }
-                //http://127.0.0.1:9958/quote?func=getkline&code=601857.SH&cycle=day
+                //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=day
+                //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=minute&subscription=forward
                 //获取K线
                 else if (func == "getkline")
                 {
@@ -69,6 +70,44 @@ namespace FaceCat
                     }
                     String name = "";
                     List<SecurityData2> datas = DataCenter.HistoryService.getHistoryDatas(code, cycle, ref name);
+                    if (data.m_parameters.containsKey("subscription"))
+                    {
+                        String subscription = data.m_parameters.get("subscription");
+                        //前复权
+                        if (subscription == "forward")
+                        {
+                            if (StockService.m_devideRightDatas.ContainsKey(code))
+                            {
+                                List<List<OneDivideRightBase>> divideData = StockService.m_devideRightDatas[code];
+                                StockService.caculateDivideKLineData(datas, divideData, true);
+                                float[] factors = StockService.caculateDivideKLineData2(datas, divideData, true);
+                                if (factors != null)
+                                {
+                                    for (int i = 0; i < factors.Length; i++)
+                                    {
+                                        StockService.getDataAfterDivide(IsDivideRightType.Forward, datas[i], factors[i]);
+                                    }
+                                }
+                            }
+                        }
+                        //后复权
+                        else if (subscription == "backward")
+                        {
+                            if (StockService.m_devideRightDatas.ContainsKey(code))
+                            {
+                                List<List<OneDivideRightBase>> divideData = StockService.m_devideRightDatas[code];
+                                StockService.caculateDivideKLineData(datas, divideData, false);
+                                float[] factors = StockService.caculateDivideKLineData2(datas, divideData, false);
+                                if (factors != null)
+                                {
+                                    for (int i = 0; i < factors.Length; i++)
+                                    {
+                                        StockService.getDataAfterDivide(IsDivideRightType.Backward, datas[i], factors[i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine(code + " " + name);
                     sb.AppendLine("日期,开盘价,最高价,最低价,收盘价,成交量,成交额");

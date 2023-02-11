@@ -52,7 +52,8 @@ public class HttpService implements FCHttpEasyService{
                      data.m_resStr = content;
                  }
             }
-            //http://127.0.0.1:9958/quote?func=getkline&code=601857.SH&cycle=day
+            //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=day
+            //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=minute&subscription=forward
             //获取K线
             else if (func.equals("getkline"))
             {
@@ -79,6 +80,44 @@ public class HttpService implements FCHttpEasyService{
                 RefObject<String> refName = new RefObject<String>(name);
                 ArrayList<SecurityData2> datas = DataCenter.m_historyService.getHistoryDatas(code, cycle, refName);
                 name = refName.argvalue;
+                if (data.m_parameters.containsKey("subscription"))
+                {
+                    String subscription = data.m_parameters.get("subscription");
+                    //前复权
+                    if (subscription == "forward")
+                    {
+                        if (StockService.m_devideRightDatas.containsKey(code))
+                        {
+                            ArrayList<ArrayList<OneDivideRightBase>> divideData = StockService.m_devideRightDatas.get(code);
+                            StockService.caculateDivideKLineData(datas, divideData, true);
+                            float[] factors = StockService.caculateDivideKLineData2(datas, divideData, true);
+                            if (factors != null)
+                            {
+                                for (int i = 0; i < factors.length; i++)
+                                {
+                                    StockService.getDataAfterDivide(IsDivideRightType.Forward, datas.get(i), factors[i]);
+                                }
+                            }
+                        }
+                    }
+                    //后复权
+                    else if (subscription == "backward")
+                    {
+                        if (StockService.m_devideRightDatas.containsKey(code))
+                        {
+                            ArrayList<ArrayList<OneDivideRightBase>> divideData = StockService.m_devideRightDatas.get(code);
+                            StockService.caculateDivideKLineData(datas, divideData, false);
+                            float[] factors = StockService.caculateDivideKLineData2(datas, divideData, false);
+                            if (factors != null)
+                            {
+                                for (int i = 0; i < factors.length; i++)
+                                {
+                                    StockService.getDataAfterDivide(IsDivideRightType.Backward, datas.get(i), factors[i]);
+                                }
+                            }
+                        }
+                    }
+                }
                 StringBuilder sb = new StringBuilder();
                 sb.append(code + " " + name + "\r\n");
                 sb.append("日期,开盘价,最高价,最低价,收盘价,成交量,成交额\r\n");

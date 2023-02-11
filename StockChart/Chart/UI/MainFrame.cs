@@ -587,85 +587,10 @@ namespace chart {
                         }
                     }
                 }else if (eventName == "ontouchup") {
-                    String cmd = FaceCatAPI.getCurrentCmd();
-                    if (cmd.IndexOf("deleteplot:") == 0)
-                    {
-                        FaceCat.MyChartDiv.deletePlot(m_chart);
-                    }
-                    else if (cmd.IndexOf("saveplot:") != -1)
-                    {
-                        FaceCat.MyChartDiv.savePlot(m_chart);
-                    }
-                    else if (cmd.IndexOf("deleteformula:") == 0)
-                    {
-                        FaceCat.MyChartDiv.deleteFormula(m_chart, m_indicators);
-                    }
-                    else if (cmd.IndexOf("saveformula:") == 0)
-                    {
-                        FaceCat.MyChartDiv.saveFormula(m_chart, m_indicators);
-                    }
-                    else if (cmd.IndexOf("useformula:") == 0)
-                    {
-                        FaceCat.MyChartDiv.useFormula(m_chart, m_indicators);
-                    }
-                    else if (cmd.IndexOf("useplot:") == 0)
-                    {
-                        FaceCat.MyChartDiv.usePlot(m_chart);
-                    }
-                    else if (cmd.IndexOf("remoteplot:") == 0)
-                    {
-                        FaceCat.MyChartDiv.remotePlot(m_chart);
-                    }
-                    else if (cmd.IndexOf("remoteformula:") == 0)
-                    {
-                        FaceCat.MyChartDiv.remoteFormula(m_chart, m_indicators);
-                    }
-                    else if (cmd.IndexOf("startcopyshape:") == 0)
-                    {
-                        FaceCat.MyChartDiv.startCopyShape(m_chart);
-                    }
-                    else if (cmd.IndexOf("copyshape:") == 0)
-                    {
-                        FaceCat.MyChartDiv.copyShape(m_chart);
-                    }
-                    else if (cmd.IndexOf("clearcopyshape:") == 0)
-                    {
-                        FaceCat.MyChartDiv.clearCopyShape(m_chart);
-                    }
-                    else if (cmd.IndexOf("addblankdiv:") == 0)
-                    {
-                        FaceCat.MyChartDiv.addBlankDiv(m_chart);
-                    }
-                    else if (cmd.IndexOf("removeblankdiv:") == 0)
-                    {
-                        FaceCat.MyChartDiv.removeBlankDiv(m_chart);
-                    }
-                    else
-                    {
-                        m_floatDiv.setVisible(m_chart.showCrossLine());
-                    }
+                    m_floatDiv.setVisible(m_chart.showCrossLine());
                     m_native.invalidate();
                 }
-            } else {
-                FCButton closeButton = sender as FCButton;
-                if (closeButton != null) {
-                    FCWindow window = closeButton.getParent() as FCWindow;
-                    if (window != null) {
-                        window.close();
-                        window.delete();
-                        return;
-                    }
-                }
             }
-        }
-
-        public override void delete()
-        {
-            if (!isDeleted())
-            {
-                FaceCatAPI.setCopyShape(null, null);
-            }
-            base.delete();
         }
 
         /// <summary>
@@ -990,8 +915,8 @@ namespace chart {
             addMainIndicator("MACD", "", "CONST SHORT=12;CONST LONG=26;CONST MID=9;\r\nDIF:EMA(CLOSE,SHORT)-EMA(CLOSE,LONG);\rDEA:EMA(DIF,MID);\rMACD:(DIF-DEA)*2,COLORSTICK;", "", m_chart.getDivs()[2], true);
             //String t = sb.ToString();
             Security security = new Security();
-            security.m_code = "600000.SH";
-            security.m_name = "浦发银行";
+            security.m_code = "000001.SZ";
+            security.m_name = "平安银行";
             searchSecurity(security);
         }
 

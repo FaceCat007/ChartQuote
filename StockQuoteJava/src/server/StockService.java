@@ -1100,7 +1100,7 @@ public class StockService {
     /*
     * 计算复权，只改变复权因子
     */
-    public static float[] caculateDivideKLineData2(List<SecurityData2> data, List<List<OneDivideRightBase>> divideData, boolean isForward)
+    public static float[] caculateDivideKLineData2(List<SecurityData2> data, ArrayList<ArrayList<OneDivideRightBase>> divideData, boolean isForward)
     {
         if (divideData == null || data == null)
             return null;

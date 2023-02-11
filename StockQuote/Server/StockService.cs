@@ -76,7 +76,36 @@ namespace FaceCat {
                             int day = intDate % 100;
                             oneDivideRightBase.Date = FCTran.getDateNum(year, month, day, 0, 0, 0, 0);
                             oneDivideRightBase.DataValue = FCTran.strToFloat(subStrs[1]);
-                            oneDivideRightBase.DivideType = (DivideRightType)Enum.Parse(typeof(DivideRightType), subStrs[2]);
+                            switch (subStrs[2])
+                            {
+                                case "ZengFa":
+                                    oneDivideRightBase.DivideType = DivideRightType.ZengFa;
+                                    break;
+                                case "PeiGu":
+                                    oneDivideRightBase.DivideType = DivideRightType.PeiGu;
+                                    break;
+                                case "PaiXi":
+                                    oneDivideRightBase.DivideType = DivideRightType.PaiXi;
+                                    break;
+                                case "GengMing":
+                                    oneDivideRightBase.DivideType = DivideRightType.GengMing;
+                                    break;
+                                case "SongGu":
+                                    oneDivideRightBase.DivideType = DivideRightType.SongGu;
+                                    break;
+                                case "ZhuanZeng":
+                                    oneDivideRightBase.DivideType = DivideRightType.ZhuanZeng;
+                                    break;
+                                case "BingGu":
+                                    oneDivideRightBase.DivideType = DivideRightType.BingGu;
+                                    break;
+                                case "ChaiGu":
+                                    oneDivideRightBase.DivideType = DivideRightType.ChaiGu;
+                                    break;
+                                case "Jili":
+                                    oneDivideRightBase.DivideType = DivideRightType.Jili;
+                                    break;
+                            }
                             oneDivideRightBase.PClose = FCTran.strToFloat(subStrs[3]);
                             oneDivideRightBase.Factor = FCTran.strToFloat(subStrs[4]);
                             if (date == -1)
