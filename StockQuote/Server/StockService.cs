@@ -401,7 +401,7 @@ namespace FaceCat {
                     dateTime.ToString("yyyy-MM-dd"), data.m_open, data.m_high,
                     data.m_low, data.m_close, data.m_volume, data.m_amount));
             }
-            sb.Append("数据来源:卷卷猫");
+            sb.Append("数据来源:花卷猫");
             String appPath = Application.StartupPath;
             String filePath = appPath + "\\day\\" + FCStrExC.convertDBCodeToFileName(code);
             FCFile.write(filePath, sb.ToString());
@@ -422,7 +422,7 @@ namespace FaceCat {
                     dateTime.ToString("yyyy-MM-dd"), dateTime.ToString("HHmm"), data.m_open, data.m_high,
                     data.m_low, data.m_close, data.m_volume, data.m_amount));
             }
-            sb.Append("数据来源:卷卷猫");
+            sb.Append("数据来源:花卷猫");
             String appPath = Application.StartupPath;
             String filePath = appPath + "\\minute\\" + FCStrExC.convertDBCodeToFileName(code);
             FCFile.write(filePath, sb.ToString());

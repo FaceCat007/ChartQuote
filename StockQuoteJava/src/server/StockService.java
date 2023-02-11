@@ -450,7 +450,7 @@ public class StockService {
             sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s\r\n", dateStr, data.m_open, data.m_high,
                 data.m_low, data.m_close, data.m_volume, data.m_amount)); 
         }
-        sb.append("数据来源:卷卷猫");
+        sb.append("数据来源:花卷猫");
         String appPath = DataCenter.getAppPath();
         String filePath = appPath + DataCenter.m_seperator + "day" + DataCenter.m_seperator + FCStrExC.convertDBCodeToFileName(code);
         FCFile.write(filePath, sb.toString());
@@ -472,7 +472,7 @@ public class StockService {
             sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s\r\n", dateStr, data.m_open, data.m_high,
                 data.m_low, data.m_close, data.m_volume, data.m_amount)); 
         }
-        sb.append("数据来源:卷卷猫");
+        sb.append("数据来源:花卷猫");
         String appPath = DataCenter.getAppPath();
         String filePath = appPath + DataCenter.m_seperator + "minute" + DataCenter.m_seperator + FCStrExC.convertDBCodeToFileName(code);
         FCFile.write(filePath, sb.toString());
