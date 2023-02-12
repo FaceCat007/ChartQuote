@@ -16,7 +16,7 @@ df = qs.realtime_data()
 path = os.getcwd() + "\\codes.txt"
 if os.path.exists(path):
 	os.remove(path)
-fs = open(path,'a+')
+fs = open(path,'a+', encoding="UTF-8")
 for i in range(0,len(df.columns)):
 	print(df.columns[i])
 for i in range(0, len(df)):
