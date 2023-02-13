@@ -109,6 +109,7 @@ public class PriceDataService extends FCServerService  {
     /*
     * 发送数据
     * @param latestDatas 最新数据
+    * @param socketID 套接字ID
     */
     public void sendDatas(HashMap<String, SecurityLatestData> latestDatas, int socketID) {
         try{

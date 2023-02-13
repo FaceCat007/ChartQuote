@@ -15,26 +15,20 @@ namespace FaceCat {
     /// 数据中心
     /// </summary>
     public class DataCenter {
-        private static HistoryService m_historyService;
+        /// <summary>
+        /// 历史数据服务
+        /// </summary>
+        public static HistoryService m_historyService;
 
-        public static HistoryService HistoryService {
-            get { return DataCenter.m_historyService; }
-            set { DataCenter.m_historyService = value; }
-        }
+        /// <summary>
+        /// 最新数据服务
+        /// </summary>
+        public static LatestService m_latestService;
 
-        private static LatestService m_latestService;
-
-        public static LatestService LatestService {
-            get { return DataCenter.m_latestService; }
-            set { DataCenter.m_latestService = value; }
-        }
-
-        private static PriceDataService m_priceDataService;
-
-        public static PriceDataService PriceDataService {
-            get { return DataCenter.m_priceDataService; }
-            set { DataCenter.m_priceDataService = value; }
-        }
+        /// <summary>
+        /// 报价服务
+        /// </summary>
+        public static PriceDataService m_priceDataService;
 
         /// <summary>
         /// 启动http服务

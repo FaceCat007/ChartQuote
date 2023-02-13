@@ -4,6 +4,9 @@ using System.Text;
 using FaceCat;
 
 namespace chart {
+    /// <summary>
+    /// 最新数据服务
+    /// </summary>
     public class LatestServiceClient : FCClientService{
         public LatestServiceClient() {
             setServiceID(SERVICEID);
@@ -44,6 +47,11 @@ namespace chart {
             m_socketID = value;
         }
 
+        /// <summary>
+        /// 注册代码
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
+        /// <param name="codes">代码</param>
         public void subCodes(int requestID, String codes) {
             FCBinary bw = new FCBinary();
             bw.writeString(codes);
@@ -53,15 +61,24 @@ namespace chart {
             Console.WriteLine("1");
         }
 
+        /// <summary>
+        /// 反注册代码
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
         public void unSubCodes(int requestID) {
             FCBinary bw = new FCBinary();
             bw.writeString("1");
             byte[] bytes = bw.getBytes();
             int ret = send(new FCMessage(getServiceID(), FUNCTION_UNSUBCODES,  requestID, m_socketID, 0, 0, bytes.Length, bytes));
             bw.close();
-            Console.WriteLine("1");
         }
 
+        /// <summary>
+        /// 获取最新数据
+        /// </summary>
+        /// <param name="body">包体</param>
+        /// <param name="bodyLength">包体长度</param>
+        /// <returns>最新数据</returns>
         public static SecurityLatestData getLatestData(byte[] body, int bodyLength) {
             FCBinary br = new FCBinary();
             br.write(body, bodyLength);
@@ -101,14 +118,13 @@ namespace chart {
             latestData.m_settlePrice = br.readDouble();
             latestData.m_date = br.readDouble();
             br.close();
-            //Console.WriteLine(JsonConvert.SerializeObject(latestData) + "\r\n");
             return latestData;
         }
 
         /// <summary>
         /// 接收消息方法
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">消息</param>
         public override void onReceive(FCMessage message) {
             base.onReceive(message);
             if (message.m_functionID == FUNCTION_NEWDATA) {

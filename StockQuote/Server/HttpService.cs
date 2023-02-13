@@ -13,8 +13,8 @@ namespace FaceCat
         /// <summary>
         /// 接收消息
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">数据</param>
+        /// <returns>状态</returns>
         public int onReceive(FCHttpData data)
         {
             if (data.m_parameters.containsKey("func"))
@@ -24,13 +24,13 @@ namespace FaceCat
                 //获取代码
                 if (func == "exportday")
                 {
-                    DataCenter.HistoryService.fallSecurityDatas();
+                    DataCenter.m_historyService.fallSecurityDatas();
                 }
                 //http://127.0.0.1:9958/quote?func=exportday
                 //获取代码
                 else if (func == "exportminute")
                 {
-                    DataCenter.HistoryService.fallMinuteSecurityDatas();
+                    DataCenter.m_historyService.fallMinuteSecurityDatas();
                 }
                 //http://127.0.0.1:9958/quote?func=getcodes
                 //获取代码
@@ -80,7 +80,7 @@ namespace FaceCat
                         cycle = FCTran.strToInt(strCycle.Replace("m", ""));
                     }
                     String name = "";
-                    List<SecurityData2> datas = DataCenter.HistoryService.getHistoryDatas(code, cycle, ref name);
+                    List<SecurityData2> datas = DataCenter.m_historyService.getHistoryDatas(code, cycle, ref name);
                     if (data.m_parameters.containsKey("subscription"))
                     {
                         String subscription = data.m_parameters.get("subscription");

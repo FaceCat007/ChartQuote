@@ -10,9 +10,6 @@ import facecat.topin.core.*;
 import facecat.topin.service.*;
 import base.*;
 import java.text.SimpleDateFormat;
-import static service.DataCenter.getAppPath;
-import static service.DataCenter.m_seperator;
-import static service.DataCenter.runnable;
 
 /**
  *
@@ -170,12 +167,6 @@ public class StockService {
         return ret;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="code">代码</param>
-    /// <param name="latestData">最新数据</param>
-    /// <returns>状态</returns>
     /*
     * 获取最新数据
     * @param code 代码
@@ -261,6 +252,9 @@ public class StockService {
         new Thread(runnable).start();
     }
     
+    /*
+    * 拉取最新数据的线程
+    */
     public static Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -333,6 +327,8 @@ public class StockService {
     
     /*
     * 获取日线数据
+    * @param code 代码
+    * @param name 名称
     */
     public static ArrayList<SecurityData2> getSecurityDatas(String code, RefObject<String> name) {
         ArrayList<SecurityData2> datas = new ArrayList<SecurityData2>();
@@ -384,6 +380,8 @@ public class StockService {
     
     /*
     * 获取分时线数据
+    * @param code 代码
+    * @param name 名称
     */
     public static ArrayList<SecurityData2> getSecurityMinuteDatas(String code, RefObject<String> name) {
         ArrayList<SecurityData2> datas = new ArrayList<SecurityData2>();
@@ -436,6 +434,9 @@ public class StockService {
     
     /*
     * 写日线数据
+    * @param code 代码
+    * @param name 名称
+    * @param datas 数据
     */
     public static void writeSecurityDatas(String code, String name, ArrayList<SecurityData2> datas) {
         int datasSize = datas.size();
@@ -458,6 +459,9 @@ public class StockService {
 
     /*
     * 写分钟线数据
+    * @param code 代码
+    * @param name 名称
+    * @param datas 数据
     */
     public static void writeMinuteSecurityDatas(String code, String name, ArrayList<SecurityData2> datas) {
         int datasSize = datas.size();
@@ -480,6 +484,8 @@ public class StockService {
     
     /*
     * 合并日线数据
+    * @param latestData 最新数据
+    * @param oldDatas 老数据
     */
     public static void mergeSecurityDatas(SecurityLatestData latestData, ArrayList<SecurityData2> oldDatas) {
         SecurityData2 newDayData = new SecurityData2();
@@ -519,6 +525,8 @@ public class StockService {
     
     /*
     * 合并分时线数据
+    * @param datas 数据
+    * @param latestDatas 最新数据
     */
     public static void mergeMinuteSecurityDatas(ArrayList<SecurityData2> datas, ArrayList<SecurityData2> latestDatas) {
         for (int i = 0; i < latestDatas.size(); i++) {
@@ -535,9 +543,11 @@ public class StockService {
         }
     }
     
-    /// <summary>
-    /// 合并实时数据
-    /// </summary>
+    /*
+    * 合并实时数据
+    * @param latestData 最新数据
+    * @param oldCache 旧数据缓存
+    */
     public static void mergeRunTimeDatas(SecurityLatestData latestData, MinuteDatasCache oldCache) {
         double subVolume = latestData.m_volume - oldCache.m_lastVolume;
         double subAmount = latestData.m_amount - oldCache.m_lastAmount;
@@ -861,6 +871,9 @@ public class StockService {
     
     /*
     * 计算多分钟线
+    * @param newDatas 最新数据
+    * @param minuteDatas 分钟线数据
+    * @param cycle 周期
     */
     public static void multiMinuteSecurityDatas(List<SecurityData2> newDatas, List<SecurityData2> minuteDatas, int cycle) {
         int lastMinutes = 0;
@@ -900,6 +913,10 @@ public class StockService {
     
     /*
     * 合并最新数据
+    * @param oldDatas 老数据
+    * @param latestData 最新数据
+    * @param tickDataCache tick数据
+    * @param cycle 周期
     */
     public static void mergeLatestData(ArrayList<SecurityData2> oldDatas, SecurityLatestData latestData, ClientTickDataCache tickDataCache, int cycle) {
         //A股
@@ -1035,6 +1052,9 @@ public class StockService {
 
     /*
     * 计算复权，只改变复权因子
+    * @param data 数据
+    * @param divideData 复权因子
+    * @param isForward 是否前复权
     */
     public static void caculateDivideKLineData(ArrayList<SecurityData2> data, ArrayList<ArrayList<OneDivideRightBase>> divideData, boolean isForward)
     {
@@ -1099,6 +1119,9 @@ public class StockService {
     
     /*
     * 计算复权，只改变复权因子
+    * @param data 数据
+    * @param divideData 复权因子
+    * @param isForward 是否前复权
     */
     public static float[] caculateDivideKLineData2(List<SecurityData2> data, ArrayList<ArrayList<OneDivideRightBase>> divideData, boolean isForward)
     {
@@ -1225,6 +1248,10 @@ public class StockService {
         data.m_close = data.m_close * tempFactor;
     }
 
+    /*
+    * 获取163的K线
+    * @param strCodes 代码
+    */
     public static String get163LatestDatasByCodes(String strCodes)
     {
         String url = "http://api.money.126.net/data/feed/{0},money.api%5D";

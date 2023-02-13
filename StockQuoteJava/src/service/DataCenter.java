@@ -76,6 +76,9 @@ public class DataCenter {
         new Thread(runnable).start();
     }
     
+    /*
+    * 启动HTTP的线程
+    */
     public static Runnable runnable = new Runnable() {
         @Override
         public void run() {

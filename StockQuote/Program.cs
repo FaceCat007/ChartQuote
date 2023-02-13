@@ -31,7 +31,7 @@ namespace FaceCat {
                 }
                 else if (str == "2")
                 {
-                    DataCenter.HistoryService.fallMinuteSecurityDatas();
+                    DataCenter.m_historyService.fallMinuteSecurityDatas();
                 }
             }
         }

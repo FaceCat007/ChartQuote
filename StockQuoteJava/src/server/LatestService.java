@@ -133,6 +133,8 @@ public class LatestService extends FCServerService  {
 
     /*
     * 发送最新数据
+    * @param data 最新数据
+    * @param socketID 套接字ID
     */
     public void sendData(SecurityLatestData data, int socketID) {
         try{

@@ -24,16 +24,25 @@ namespace chart
             setIsWindow(true);
         }
 
+        /// <summary>
+        /// 创建视图
+        /// </summary>
         public FCView createView(UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return new SearchDiv();
         }
 
+        /// <summary>
+        /// 额外解析
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="uiXmlEx"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public bool moreAnalysis(FCView view, UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return false;
         }
-
 
         /// <summary>
         /// 表格控件

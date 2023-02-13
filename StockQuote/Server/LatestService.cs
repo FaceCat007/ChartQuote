@@ -122,7 +122,8 @@ namespace FaceCat {
         /// <summary>
         /// 发送最新数据
         /// </summary>
-        /// <param name="latestData"></param>
+        /// <param name="latestData">最新数据</param>
+        /// <param name="socketID">套接字ID</param>
         public void sendData(SecurityLatestData data, int socketID) {
             List<LatestRequestInfo> socketIDs = new List<LatestRequestInfo>();
             lock (m_socketIDs) {

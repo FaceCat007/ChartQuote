@@ -100,9 +100,10 @@ namespace FaceCat {
         /// <summary>
         /// 获取历史数据
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="cycle"></param>
-        /// <returns></returns>
+        /// <param name="code">代码</param>
+        /// <param name="cycle">周期</param>
+        /// <param name="name">名称</param>
+        /// <returns>历史数据</returns>
         public List<SecurityData2> getHistoryDatas(String code, int cycle, ref String name)
         {
             List<SecurityData2> sendDatas = new List<SecurityData2>();

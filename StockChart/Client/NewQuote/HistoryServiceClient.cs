@@ -4,6 +4,9 @@ using System.Text;
 using FaceCat;
 
 namespace chart {
+    /// <summary>
+    /// 历史数据服务
+    /// </summary>
     public class HistoryServiceClient : FCClientService {
         public HistoryServiceClient() {
             setServiceID(SERVICEID);
@@ -40,6 +43,11 @@ namespace chart {
             m_socketID = value;
         }
 
+        /// <summary>
+        /// 获取复权因子
+        /// </summary>
+        /// <param name="code">代码</param>
+        /// <returns>复权因子</returns>
         public List<List<OneDivideRightBase>> getDivideRight(String code)
         {
             if (m_devideRightDatas.ContainsKey(code))
@@ -52,6 +60,10 @@ namespace chart {
             }
         }
 
+        /// <summary>
+        /// 请求代码
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
         public void reqCodes(int requestID) {
             FCBinary bw = new FCBinary();
             bw.writeString("1");
@@ -60,6 +72,14 @@ namespace chart {
             int ret = send(new FCMessage(getServiceID(), FUNCTIONID_GETCODE, requestID, m_socketID, 0, 0, bytes.Length, bytes));
         }
 
+        /// <summary>
+        /// 请求数据
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
+        /// <param name="code">代码</param>
+        /// <param name="cycle">周期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="endDate">结束日期</param>
         public void reqData(int requestID, String code, int cycle, double startDate, double endDate) {
             FCBinary bw = new FCBinary();
             bw.writeString(code);
@@ -71,6 +91,10 @@ namespace chart {
             int ret = send(new FCMessage(getServiceID(), FUNCTIONID_GETDATA, requestID, m_socketID, 0, 0, bytes.Length, bytes));
         }
 
+        /// <summary>
+        /// 请求复权因子
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
         public void reqDevideDatas(int requestID)
         {
             FCBinary bw = new FCBinary();
@@ -80,6 +104,19 @@ namespace chart {
             int ret = send(new FCMessage(getServiceID(), FUNCTIONID_GETDR, requestID, m_socketID, 0, 0, bytes.Length, bytes));
         }
 
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <param name="code">代码</param>
+        /// <param name="cycle">周期</param>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="nowDate">当前日期</param>
+        /// <param name="nowVolume">当前成交量</param>
+        /// <param name="nowAmount">当前成交额</param>
+        /// <param name="body">包体</param>
+        /// <param name="bodyLength">包体长度</param>
+        /// <returns></returns>
         public static List<SecurityData> getDatas(ref String code, ref int cycle, ref double startDate, ref double endDate, ref double nowDate, ref double nowVolume, ref double nowAmount, byte[] body, int bodyLength) {
             FCBinary br = new FCBinary();
             br.write(body, bodyLength);
@@ -107,6 +144,12 @@ namespace chart {
             return datas;
         }
 
+        /// <summary>
+        /// 获取代码
+        /// </summary>
+        /// <param name="body">包体</param>
+        /// <param name="bodyLength">包体长度</param>
+        /// <returns>证券列表</returns>
         public static List<Security> getCodes(byte[] body, int bodyLength) {
             FCBinary br = new FCBinary();
             br.write(body, bodyLength);
@@ -128,9 +171,9 @@ namespace chart {
         /// <summary>
         /// 获取复权因子
         /// </summary>
-        /// <param name="body"></param>
-        /// <param name="bodyLength"></param>
-        /// <returns></returns>
+        /// <param name="body">包体</param>
+        /// <param name="bodyLength">包体长度</param>
+        /// <returns>复权因子</returns>
         public static Dictionary<String, List<List<OneDivideRightBase>>> getDevideDatas(byte[] body, int bodyLength)
         {
             Dictionary<String, List<List<OneDivideRightBase>>> datas = new Dictionary<string, List<List<OneDivideRightBase>>>();
@@ -166,7 +209,7 @@ namespace chart {
         /// <summary>
         /// 接收消息方法
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">消息</param>
         public override void onReceive(FCMessage message)
         {
             base.onReceive(message);

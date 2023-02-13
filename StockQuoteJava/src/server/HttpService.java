@@ -16,11 +16,11 @@ import java.util.*;
  * Http服务
  */
 public class HttpService implements FCHttpEasyService{
-    /// <summary>
-    /// 接收消息
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /*
+    * 接收消息
+    * @param data 数据
+    * @return 返回状态
+    */
     public int onReceive(FCHttpData data)
     {
         if (data.m_parameters.containsKey("func"))

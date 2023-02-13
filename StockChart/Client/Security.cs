@@ -960,6 +960,9 @@ namespace chart
         public String m_userID = "";
     }
 
+    /// <summary>
+    /// 复权类型
+    /// </summary>
     public enum DivideRightType
     {
         ZengFa = 1,
@@ -973,6 +976,9 @@ namespace chart
         Jili = 9
     }
 
+    /// <summary>
+    /// 复权因子数据
+    /// </summary>
     [Serializable]
     public class OneDivideRightBase
     {

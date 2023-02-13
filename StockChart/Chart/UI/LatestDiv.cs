@@ -107,7 +107,7 @@ namespace chart {
         /// <summary>
         /// 设置股票代码
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">代码</param>
         public void setSecurityCode(String value) {
             m_latestData = new SecurityLatestData();
             m_securityCode = value;
@@ -417,11 +417,17 @@ namespace chart {
             }
         }
 
+        /// <summary>
+        /// 创建视图
+        /// </summary>
         public FCView createView(UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return new LatestDiv();
         }
 
+        /// <summary>
+        /// 额外解析
+        /// </summary>
         public bool moreAnalysis(FCView view, UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return false;

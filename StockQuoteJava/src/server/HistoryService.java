@@ -107,6 +107,9 @@ public class HistoryService extends FCServerService  {
 
     /*
     * 获取历史数据
+    * @param code 代码
+    * @param cycle 周期
+    * @name 返回名称
     */
     public ArrayList<SecurityData2> getHistoryDatas(String code, int cycle, RefObject<String> name)
     {

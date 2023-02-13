@@ -15,5 +15,4 @@ public class OneDivideRightBase {
     public DivideRightType DivideType;
     public float Factor;
     public float PClose;
-
 }

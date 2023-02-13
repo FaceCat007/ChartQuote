@@ -253,6 +253,9 @@ namespace chart
         /// </summary>
         private static String m_codes;
 
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
         static StockService()
         {
             for (int i = 570; i <= 900; i++)
@@ -272,7 +275,9 @@ namespace chart
         /// <summary>
         /// 获取日线数据
         /// </summary>
-        /// <returns></returns>
+        /// <param name="code">代码</param>
+        /// <param name="name">名称</param>
+        /// <returns>数据</returns>
         public static List<SecurityData> getSecurityDatas(String code, ref String name)
         {
             List<SecurityData> datas = new List<SecurityData>();
@@ -307,7 +312,9 @@ namespace chart
         /// <summary>
         /// 获取分时线数据
         /// </summary>
-        /// <returns></returns>
+        /// <param name="code">代码</param>
+        /// <param name="name">名称</param>
+        /// <returns>数据</returns>
         public static List<SecurityData> getSecurityMinuteDatas(String code, ref String name)
         {
             List<SecurityData> datas = new List<SecurityData>();
@@ -342,7 +349,9 @@ namespace chart
         /// <summary>
         /// 写日线数据
         /// </summary>
-        /// <param name="datas"></param>
+        /// <param name="code">代码</param>
+        /// <param name="name">名称</param>
+        /// <param name="datas">数据</param>
         public static void writeSecurityDatas(String code, String name, List<SecurityData> datas)
         {
             int datasSize = datas.Count;
@@ -363,6 +372,12 @@ namespace chart
             FCFile.write(filePath, sb.ToString());
         }
 
+        /// <summary>
+        /// 写分钟线数据
+        /// </summary>
+        /// <param name="code">代码</param>
+        /// <param name="name">名称</param>
+        /// <param name="datas">数据</param>
         public static void writeMinuteSecurityDatas(String code, String name, List<SecurityData> datas)
         {
             int datasSize = datas.Count;
@@ -386,8 +401,8 @@ namespace chart
         /// <summary>
         /// 合并日线数据
         /// </summary>
-        /// <param name="latestData"></param>
-        /// <param name="datas"></param>
+        /// <param name="latestData">最新数据</param>
+        /// <param name="oldDatas">老数据</param>
         public static void mergeSecurityDatas(SecurityLatestData latestData, List<SecurityData> oldDatas)
         {
             SecurityData newDayData = new SecurityData();
@@ -419,8 +434,8 @@ namespace chart
         /// <summary>
         /// 合并分时线数据
         /// </summary>
-        /// <param name="latestDatas"></param>
-        /// <param name="datas"></param>
+        /// <param name="datas">数据</param>
+        /// <param name="latestDatas">新数据</param>
         public static void mergeMinuteSecurityDatas(List<SecurityData> datas, List<SecurityData> latestDatas)
         {
             for (int i = 0; i < latestDatas.Count; i++)
@@ -447,6 +462,8 @@ namespace chart
         /// <summary>
         /// 合并实时数据
         /// </summary>
+        /// <param name="latestData">最新数据</param>
+        /// <param name="oldCache">缓存老数据</param>
         public static void mergeRunTimeDatas(SecurityLatestData latestData, MinuteDatasCache oldCache)
         {
             double subVolume = latestData.m_volume - oldCache.m_lastVolume;
@@ -714,9 +731,9 @@ namespace chart
         /// <summary>
         /// 计算多分钟线
         /// </summary>
-        /// <param name="minuteDatas"></param>
-        /// <param name="newDatas"></param>
-        /// <param name="cycle"></param>
+        /// <param name="newDatas">新数据</param>
+        /// <param name="minuteDatas">分钟线数据</param>
+        /// <param name="cycle">周期</param>
         public static void multiMinuteSecurityDatas(List<SecurityData> newDatas, List<SecurityData> minuteDatas, int cycle)
         {
             int lastMinutes = 0;
@@ -764,10 +781,10 @@ namespace chart
         /// <summary>
         /// 合并最新数据
         /// </summary>
-        /// <param name="oldDatas"></param>
-        /// <param name="latestData"></param>
-        /// <param name="tickDataCache"></param>
-        /// <param name="cycle"></param>
+        /// <param name="oldDatas">老数据</param>
+        /// <param name="latestData">新数据</param>
+        /// <param name="tickDataCache">TICK数据</param>
+        /// <param name="cycle">周期</param>
         public static void mergeLatestData(List<SecurityData> oldDatas, SecurityLatestData latestData, ClientTickDataCache tickDataCache, int cycle)
         {
             DateTime newDate = FCTran.numToDate(latestData.m_date);
@@ -866,11 +883,9 @@ namespace chart
         /// <summary>
         /// 计算复权，只改变复权因子
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="data"></param>
-        /// <param name="isCycleYear"></param>
-        /// <param name="isForward"></param>
-        /// <returns></returns>
+        /// <param name="data">数据</param>
+        /// <param name="divideData">复权因子</param>
+        /// <param name="isForward">是否前复权</param>
         public static void caculateDivideKLineData(List<SecurityData> data, List<List<OneDivideRightBase>> divideData, bool isForward)
         {
             if (divideData == null || data == null)
@@ -937,11 +952,9 @@ namespace chart
         /// <summary>
         /// 计算复权，只改变复权因子
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="data"></param>
-        /// <param name="isCycleYear"></param>
-        /// <param name="isForward"></param>
-        /// <returns></returns>
+        /// <param name="data">数据</param>
+        /// <param name="divideData">复权因子</param>
+        /// <param name="isForward">是否前复权</param>
         public static float[] caculateDivideKLineData2(List<SecurityData> data, List<List<OneDivideRightBase>> divideData, bool isForward)
         {
             if (divideData == null || data == null)

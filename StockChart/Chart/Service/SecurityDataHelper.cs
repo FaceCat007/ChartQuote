@@ -71,10 +71,6 @@ namespace chart
                 script.setSourceField(KeyFields.VOL.Substring(0, 1), KeyFields.VOL_INDEX);
                 script.setSourceField(KeyFields.AMOUNT.Substring(0, 1), KeyFields.AMOUNT_INDEX);
             }
-            IndicatorData indicatorData = new IndicatorData();
-            indicatorData.m_parameters = parameters;
-            indicatorData.m_script = text;
-            script.setTag(indicatorData);
             String constValue = "";
             if (parameters != null && parameters.Length > 0) {
                 String[] strs = parameters.Split(new String[] { ";" }, StringSplitOptions.RemoveEmptyEntries);

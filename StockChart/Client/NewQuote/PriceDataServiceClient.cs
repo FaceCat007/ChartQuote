@@ -4,6 +4,9 @@ using System.Text;
 using FaceCat;
 
 namespace chart {
+    /// <summary>
+    /// 报价服务
+    /// </summary>
     public class PriceDataServiceClient : FCClientService{
         public PriceDataServiceClient() {
             setServiceID(SERVICEID);
@@ -44,6 +47,11 @@ namespace chart {
             m_socketID = value;
         }
 
+        /// <summary>
+        /// 注册代码
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
+        /// <param name="codes">代码</param>
         public void subCodes(int requestID, String codes) {
             FCBinary bw = new FCBinary();
             bw.writeString(codes);
@@ -52,6 +60,10 @@ namespace chart {
             bw.close();
         }
 
+        /// <summary>
+        /// 反注册代码
+        /// </summary>
+        /// <param name="requestID">请求ID</param>
         public void unSubCodes(int requestID) {
             FCBinary bw = new FCBinary();
             bw.writeString("1");
@@ -60,6 +72,12 @@ namespace chart {
             bw.close();
         }
 
+        /// <summary>
+        /// 获取报价数据
+        /// </summary>
+        /// <param name="body">包体</param>
+        /// <param name="bodyLength">包体长度</param>
+        /// <returns>报价数据</returns>
         public static List<PriceData> getPriceDatas(byte[] body, int bodyLength) {
             FCBinary br = new FCBinary();
             br.write(body, bodyLength);
@@ -79,14 +97,13 @@ namespace chart {
                 priceDatas.Add(data);
             }
             br.close();
-            //Console.WriteLine(JsonConvert.SerializeObject(priceDatas));
             return priceDatas;
         }
 
         /// <summary>
         /// 接收消息方法
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">消息</param>
         public override void onReceive(FCMessage message) {
             base.onReceive(message);
             if (message.m_functionID == FUNCTION_NEWDATA) {

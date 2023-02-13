@@ -58,7 +58,7 @@ namespace FaceCat {
         /// <summary>
         /// 接收数据方法
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">消息</param>
         public override void onReceive(FCMessage message) {
             base.onReceive(message);
             if (message.m_functionID == FUNCTION_SUBCODES) {

@@ -794,7 +794,7 @@ namespace chart {
         }
 
         /// <summary>
-        /// 点击
+        /// 点击事件
         /// </summary>
         /// <param name="sender">控件</param>
         /// <param name="item">菜单项</param>
@@ -1731,11 +1731,17 @@ namespace chart {
             onPaintCandleEx(paint, div, cs, visibleMaxIndex, visibleMax, visibleMinIndex, visibleMin);
         }
 
+        /// <summary>
+        /// 创建视图
+        /// </summary>
         public FCView createView(UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return new MyChartDiv();
         }
 
+        /// <summary>
+        /// 额外解析
+        /// </summary>
         public bool moreAnalysis(FCView view, UIXmlEx uiXmlEx, System.Xml.XmlNode node)
         {
             return false;
