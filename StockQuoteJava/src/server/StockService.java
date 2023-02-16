@@ -187,11 +187,6 @@ public class StockService {
     /// 加载数据
     /// </summary>
     public static void load() {
-        for (int i = 570; i <= 900; i++) {
-            if (i < 690 && i > 780) {
-                m_shTradeTimes.add(570);
-            }
-        }
         try
         {
             m_devideRightDatas = getDevideRightDatas();

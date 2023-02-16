@@ -56,7 +56,7 @@ namespace FaceCat
                     }
                 }
                 //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=day
-                //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=minute&subscription=forward
+                //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=1m&subscription=forward
                 //获取K线
                 else if (func == "getkline")
                 {
@@ -121,7 +121,14 @@ namespace FaceCat
                     }
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine(code + " " + name);
-                    sb.AppendLine("日期,开盘价,最高价,最低价,收盘价,成交量,成交额");
+                    if (cycle >= 1440)
+                    {
+                        sb.AppendLine("日期,开盘价,最高价,最低价,收盘价,成交量,成交额");
+                    }
+                    else
+                    {
+                        sb.AppendLine("日期,时间,开盘价,最高价,最低价,收盘价,成交量,成交额");
+                    }
                     for (int i = 0; i < datas.Count; i++)
                     {
                         SecurityData2 data2 = datas[i];
@@ -132,7 +139,7 @@ namespace FaceCat
                         }
                         else
                         {
-                            sb.AppendLine(String.Format("{0},{1},{2},{3},{4},{5},{6}", FCTran.numToDate(data2.m_date).ToString("yyyy-MM-dd HH:mm:ss"),
+                            sb.AppendLine(String.Format("{0},{1},{2},{3},{4},{5},{6}", FCTran.numToDate(data2.m_date).ToString("yyyy-MM-dd,HHmm"),
                                 data2.m_open, data2.m_high, data2.m_low, data2.m_close, data2.m_volume, data2.m_amount));
                         }
                     }

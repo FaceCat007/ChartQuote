@@ -13,8 +13,6 @@
         <input type="custom" cid="chartexex" name="divKLine" dock="fill"/>
       </div>
     </div>
-    <!--浮动数据-->
-    <input type="custom" cid="floatdiv" name="divFloat" allowdrag="true" location="85,20" size="85,300" visible="false"/>
     <!--右键菜单-->
     <menu name="rightMenu" popup="true" size="200,225" visible="false">
       <option text="主图类型">

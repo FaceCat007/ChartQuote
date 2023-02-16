@@ -302,17 +302,6 @@ namespace FaceCat {
         }
 
         /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static StockService() {
-            for (int i = 570; i <= 900; i++) {
-                if (i < 690 && i > 780) {
-                    m_shTradeTimes.Add(570);
-                }
-            }
-        }
-
-        /// <summary>
         /// 上证的交易时间
         /// </summary>
         public static List<int> m_shTradeTimes = new List<int>();

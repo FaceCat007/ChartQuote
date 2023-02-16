@@ -65,7 +65,7 @@ public class HttpService implements FCHttpEasyService{
                  }
             }
             //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=day
-            //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=minute&subscription=forward
+            //http://127.0.0.1:9958/quote?func=getkline&code=000001.SZ&cycle=1m&subscription=forward
             //获取K线
             else if (func.equals("getkline"))
             {
@@ -132,7 +132,12 @@ public class HttpService implements FCHttpEasyService{
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append(code + " " + name + "\r\n");
-                sb.append("日期,开盘价,最高价,最低价,收盘价,成交量,成交额\r\n");
+                if (cycle >= 1440)
+                {
+                    sb.append("日期,开盘价,最高价,最低价,收盘价,成交量,成交额\r\n");
+                }else{
+                    sb.append("日期,时间,开盘价,最高价,最低价,收盘价,成交量,成交额\r\n");
+                }
                 for (int i = 0; i < datas.size(); i++)
                 {
                     SecurityData2 data2 = datas.get(i);
@@ -147,7 +152,7 @@ public class HttpService implements FCHttpEasyService{
                     else
                     {
                         Calendar dateTime = FCTran.numToDate(data2.m_date);
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd,HH:mm");
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd,HHmm");
                         String dateStr = format.format(dateTime.getTime());
                         sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s\r\n", dateStr
                         , data2.m_open, data2.m_high, data2.m_low, data2.m_close, data2.m_volume, data2.m_amount));
