@@ -187,13 +187,46 @@ public class HttpService implements FCHttpEasyService{
                         Calendar dateTime = FCTran.numToDate(latestData.m_date);
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String dateStr = format.format(dateTime.getTime());
-                        sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s,%9$s,%10$s,%11$s,%12$s,%13$s,%14$s,%15$s,%16$s,%17$s,%18$s,%19$s,%20$s,%21$s,%22$s,%23$s,%24$s,%25$s,%26$s,%27$s,%28$s,%29$s", latestData.m_code, latestData.m_name,
+                        sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s,%9$s,%10$s,%11$s,%12$s,%13$s,%14$s,%15$s,%16$s,%17$s,%18$s,%19$s,%20$s,%21$s,%22$s,%23$s,%24$s,%25$s,%26$s,%27$s,%28$s,%29$s,%30$s", latestData.m_code, latestData.m_name,
                             latestData.m_close, latestData.m_high, latestData.m_low, latestData.m_open,
-                            latestData.m_volume, latestData.m_amount, latestData.m_buyPrice1, latestData.m_buyPrice2, latestData.m_buyPrice3,
+                            latestData.m_volume, latestData.m_amount, latestData.m_lastClose, latestData.m_buyPrice1, latestData.m_buyPrice2, latestData.m_buyPrice3,
                             latestData.m_buyPrice4, latestData.m_buyPrice5, latestData.m_buyVolume1, latestData.m_buyVolume2, latestData.m_buyVolume3,
                             latestData.m_buyVolume4, latestData.m_buyVolume5, latestData.m_sellPrice1, latestData.m_sellPrice2, latestData.m_sellPrice3,
                             latestData.m_sellPrice4, latestData.m_sellPrice5, latestData.m_sellVolume1, latestData.m_sellVolume2,
                             latestData.m_sellVolume3, latestData.m_sellVolume4, latestData.m_sellVolume5, dateStr));
+                    }
+                }
+                data.m_resStr = sb.toString();
+            }//http://127.0.0.1:9958/quote?func=price&codes=601857.SH,600028.SH
+            //获取最新的行情
+            else if (func.equals("price"))
+            {
+                ArrayList<SecurityLatestData> latestDatas = new ArrayList<SecurityLatestData>();
+                String[] codes = data.m_parameters.get("codes").split("[,]");
+                for (int i = 0; i < codes.length; i++)
+                {
+                    SecurityLatestData latestData = new SecurityLatestData();
+                    if (StockService.getLatestData(codes[i], latestData) > 0)
+                    {
+                        if (StockService.m_codedMap.containsKey(codes[i]))
+                        {
+                            latestData.m_name = StockService.m_codedMap.get(codes[i]).m_name;
+                            latestDatas.add(latestData);
+                        }
+                    }
+                }
+                StringBuilder sb = new StringBuilder();
+                if (latestDatas.size() > 0)
+                {
+                    for (int i = 0; i < latestDatas.size(); i++)
+                    {
+                        SecurityLatestData latestData = latestDatas.get(i);
+                        Calendar dateTime = FCTran.numToDate(latestData.m_date);
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String dateStr = format.format(dateTime.getTime());
+                        sb.append(String.format("%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s,%9$s,%10$s", latestData.m_code, latestData.m_name,
+                            latestData.m_close, latestData.m_high, latestData.m_low, latestData.m_open,
+                            latestData.m_volume, latestData.m_amount, latestData.m_lastClose, dateStr));
                     }
                 }
                 data.m_resStr = sb.toString();

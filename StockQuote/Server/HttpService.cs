@@ -169,13 +169,45 @@ namespace FaceCat
                         for (int i = 0; i < latestDatas.size(); i++)
                         {
                             SecurityLatestData latestData = latestDatas[i];
-                            sb.AppendLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28}", latestData.m_code, latestData.m_name,
+                            sb.AppendLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29}", latestData.m_code, latestData.m_name,
                                 latestData.m_close, latestData.m_high, latestData.m_low, latestData.m_open,
-                                latestData.m_volume, latestData.m_amount, latestData.m_buyPrice1, latestData.m_buyPrice2, latestData.m_buyPrice3,
+                                latestData.m_volume, latestData.m_amount, latestData.m_lastClose, latestData.m_buyPrice1, latestData.m_buyPrice2, latestData.m_buyPrice3,
                                 latestData.m_buyPrice4, latestData.m_buyPrice5, latestData.m_buyVolume1, latestData.m_buyVolume2, latestData.m_buyVolume3,
                                 latestData.m_buyVolume4, latestData.m_buyVolume5, latestData.m_sellPrice1, latestData.m_sellPrice2, latestData.m_sellPrice3,
                                 latestData.m_sellPrice4, latestData.m_sellPrice5, latestData.m_sellVolume1, latestData.m_sellVolume2,
                                 latestData.m_sellVolume3, latestData.m_sellVolume4, latestData.m_sellVolume5, FCTran.numToDate(latestData.m_date).ToString("yyyy-MM-dd HH:mm:ss")));
+
+                        }
+                    }
+                    data.m_resStr = sb.ToString();
+                }
+                //http://127.0.0.1:9958/quote?func=price&codes=601857.SH,600028.SH
+                //获取最新的行情
+                else if (func == "price")
+                {
+                    ArrayList<SecurityLatestData> latestDatas = new ArrayList<SecurityLatestData>();
+                    String[] codes = data.m_parameters.get("codes").Split(new String[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < codes.Length; i++)
+                    {
+                        SecurityLatestData latestData = new SecurityLatestData();
+                        if (StockService.getLatestData(codes[i], ref latestData) > 0)
+                        {
+                            if (StockService.m_codedMap.ContainsKey(codes[i]))
+                            {
+                                latestData.m_name = StockService.m_codedMap[codes[i]].m_name;
+                                latestDatas.add(latestData);
+                            }
+                        }
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    if (latestDatas.size() > 0)
+                    {
+                        for (int i = 0; i < latestDatas.size(); i++)
+                        {
+                            SecurityLatestData latestData = latestDatas[i];
+                            sb.AppendLine(String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", latestData.m_code, latestData.m_name,
+                                latestData.m_close, latestData.m_high, latestData.m_low, latestData.m_open,
+                                latestData.m_volume, latestData.m_amount, latestData.m_lastClose, FCTran.numToDate(latestData.m_date).ToString("yyyy-MM-dd HH:mm:ss")));
 
                         }
                     }
