@@ -251,14 +251,17 @@ namespace FaceCat {
                     for (int i = 0; i < codesSize; i++) {
                         latestCodes += strCodes[i];
                         if (i == codesSize - 1 || (i > 0 && i % 500 == 0)) {
-                            String latestDatasResult = get163LatestDatasByCodes(latestCodes);
+                            ArrayList<String> codesList = new ArrayList<String>();
+                            codesList.AddRange(latestCodes.Split(','));
+                            String latestDatasResult = getTencentLatestDatasStrByCodes(codesList);
                             if (latestDatasResult != null && latestDatasResult.Length > 0) {
-                                List<SecurityLatestData> latestDatas = new List<SecurityLatestData>();
-                                getLatestDatasBy163Str(latestDatasResult, 0, latestDatas);
+                                //List<SecurityLatestData> latestDatas = new List<SecurityLatestData>();
+                                //getLatestDatasBy163Str(latestDatasResult, 0, latestDatas);
                                 String[] subStrs = latestDatasResult.Split(new String[] { ";\n" }, StringSplitOptions.RemoveEmptyEntries);
-                                int latestDatasSize = latestDatas.Count;
+                                int latestDatasSize = subStrs.Length;
                                 for (int j = 0; j < latestDatasSize; j++) {
-                                    SecurityLatestData latestData = latestDatas[j];
+                                    SecurityLatestData latestData = new SecurityLatestData();
+                                    getLatestDatasByTencentStr(subStrs[j], ref latestData);
                                     if (latestData.m_close == 0) {
                                         latestData.m_close = latestData.m_buyPrice1;
                                     }
@@ -286,7 +289,6 @@ namespace FaceCat {
                                         }
                                     }
                                 }
-                                latestDatas.Clear();
                             }
                             latestCodes = "";
                         } else {
@@ -1222,6 +1224,299 @@ namespace FaceCat {
                     if (latestData.m_date > 0)
                     {
                         datas.Add(latestData);
+                    }
+                }
+            }
+            return 1;
+        }
+
+        /// <summary>
+        /// 将股票代码转化为腾讯代码
+        /// </summary>
+        /// <param name="code">股票代码</param>
+        /// <returns>腾讯代码</returns>
+        public static String convertDBCodeToTencentCode(String code)
+        {
+            String securityCode = code;
+            int index = securityCode.IndexOf(".");
+            if (index > 0)
+            {
+                index = securityCode.IndexOf(".SH");
+                if (index > 0)
+                {
+                    securityCode = "sh" + securityCode.Substring(0, securityCode.IndexOf("."));
+                }
+                else
+                {
+                    securityCode = "sz" + securityCode.Substring(0, securityCode.IndexOf("."));
+                }
+            }
+            return securityCode;
+        }
+
+        /// <summary>
+        /// 将腾讯代码转化为股票代码
+        /// </summary>
+        /// <param name="code">腾讯代码</param>
+        /// <returns>股票代码</returns>
+        public static String convertTencentCodeToDBCode(String code)
+        {
+            int equalIndex = code.IndexOf('=');
+            String securityCode = equalIndex > 0 ? code.Substring(0, equalIndex) : code;
+            if (securityCode.StartsWith("v_sh"))
+            {
+                securityCode = securityCode.Substring(4) + ".SH";
+            }
+            else if (securityCode.StartsWith("v_sz"))
+            {
+                securityCode = securityCode.Substring(4) + ".SZ";
+            }
+            return securityCode;
+        }
+
+        /// <summary>
+        /// 根据股票代码获取新浪最新数据
+        /// </summary>
+        /// <param name="codes">股票代码</param>
+        /// <returns>字符串</returns>
+        public static String getTencentLatestDatasStrByCodes(ArrayList<String> codes)
+        {
+            //return FCHttpGetService.get(String.Format(url, codesStr));
+            String parameters = "";
+            for (int i = 0; i < codes.size(); i++)
+            {
+                parameters += convertDBCodeToTencentCode(codes[i]);
+                if (i != codes.size() - 1)
+                {
+                    parameters += ",";
+                }
+            }
+            String url = "http://qt.gtimg.cn/q=" + parameters;
+            return FCHttpGetService.get(url);
+        }
+
+        /// <summary>
+        /// 根据字符串获取新浪最新数据
+        /// </summary>
+        /// <param name="str">数据字符串</param>
+        /// <param name="latestData">最新数据</param>
+        /// <param name="transactionDatas">成交数据</param>
+        /// <returns>最新数据列表</returns>
+        public static int getLatestDatasByTencentStr(String str, ref SecurityLatestData latestData)
+        {
+            if (str.Length > 0)
+            {
+                String[] strs = str.Split('~');
+                int strLen = strs.Length;
+                String date = null;
+                for (int i = 0; i < strLen; i++)
+                {
+                    String str2 = strs[i];
+                    switch (i)
+                    {
+                        case 0:
+                            latestData.m_code = convertTencentCodeToDBCode(str2);
+                            break;
+                        case 3:
+                            {
+                                latestData.m_close = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 4:
+                            {
+                                latestData.m_lastClose = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 5:
+                            {
+                                latestData.m_open = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 6:
+                            {
+                                latestData.m_volume = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 7:
+                            {
+                                latestData.m_outerVol = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 8:
+                            {
+                                latestData.m_innerVol = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 9:
+                            {
+                                latestData.m_buyPrice1 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 10:
+                            {
+                                latestData.m_buyVolume1 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 11:
+                            {
+                                latestData.m_buyPrice2 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 12:
+                            {
+                                latestData.m_buyVolume2 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 13:
+                            {
+                                latestData.m_buyPrice3 = FCTran.strToDouble(str2); ;
+                                break;
+                            }
+                        case 14:
+                            {
+                                latestData.m_buyVolume3 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 15:
+                            {
+                                latestData.m_buyPrice4 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 16:
+                            {
+                                latestData.m_buyVolume4 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 17:
+                            {
+                                latestData.m_buyPrice5 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 18:
+                            {
+                                latestData.m_buyVolume5 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 19:
+                            {
+                                latestData.m_sellPrice1 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 20:
+                            {
+                                latestData.m_sellVolume1 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 21:
+                            {
+                                latestData.m_sellPrice2 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 22:
+                            {
+                                latestData.m_sellVolume2 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 23:
+                            {
+                                latestData.m_sellPrice3 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 24:
+                            {
+                                latestData.m_sellVolume3 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 25:
+                            {
+                                latestData.m_sellPrice4 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 26:
+                            {
+                                latestData.m_sellVolume4 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 27:
+                            {
+                                latestData.m_sellPrice5 = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 28:
+                            {
+                                latestData.m_sellVolume5 = (int)FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 29:
+                            {
+                                break;
+                            }
+                        case 30:
+                            date = str2.Substring(0, 4) + "-" + str2.Substring(4, 2) + "-" + str2.Substring(6, 2) + " "
+                                + str2.Substring(8, 2) + ":" + str2.Substring(10, 2) + ":" + str2.Substring(12, 2);
+                            break;
+                        case 33:
+                            {
+                                latestData.m_high = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 34:
+                            {
+                                latestData.m_low = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 37:
+                            {
+                                latestData.m_amount = FCTran.strToDouble(str2) * 10000;
+                                break;
+                            }
+                        case 38:
+                            {
+                                latestData.m_turnoverRate = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 39:
+                            {
+                                double pe = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 43:
+                            {
+                                double currencyValue = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 44:
+                            {
+                                double totalValue = FCTran.strToDouble(str2);
+                                break;
+                            }
+                        case 46:
+                            {
+                                double pb = FCTran.strToDouble(str2);
+                                break;
+                            }
+                    }
+                }
+                //获取时间
+                if (date != null)
+                {
+                    DateTime dateTime = Convert.ToDateTime(date);
+                    latestData.m_date = FCTran.getDateNum(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0);
+                }
+                //价格修正
+                if (latestData.m_close != 0)
+                {
+                    if (latestData.m_open == 0)
+                    {
+                        latestData.m_open = latestData.m_close;
+                    }
+                    if (latestData.m_high == 0)
+                    {
+                        latestData.m_high = latestData.m_close;
+                    }
+                    if (latestData.m_low == 0)
+                    {
+                        latestData.m_low = latestData.m_close;
                     }
                 }
             }
